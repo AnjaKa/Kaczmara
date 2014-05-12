@@ -1,3 +1,22 @@
+<<<<<<< HEAD
 .Rproj.user
 .Rhistory
 .RData
+=======
+# History files
+.Rhistory
+# Example code in package build process
+*-Ex.R
+.Rproj.user
+*.Rproj
+.DS_Store
+*.html
+.RData
+Folien/*-figure/
+Folien/*.md
+*.out
+*.aux
+*.synctex.gz
+*.log
+hausaufgaben.html
+>>>>>>> 5b93a5e4dd87ff67f22fb8b2cf7cea4c1f4485b2
