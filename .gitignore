@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+.Rproj.user
+.Rhistory
+.RData
+=======
+=======
+>>>>>>> eda982eb66e8cc226c9ecb732928e7d20f096514
 # History files
 .Rhistory
 # Example code in package build process
@@ -13,4 +21,9 @@ Folien/*.md
 *.aux
 *.synctex.gz
 *.log
+<<<<<<< HEAD
 hausaufgaben.html
+>>>>>>> 5b93a5e4dd87ff67f22fb8b2cf7cea4c1f4485b2
+=======
+hausaufgaben.html
+>>>>>>> eda982eb66e8cc226c9ecb732928e7d20f096514
