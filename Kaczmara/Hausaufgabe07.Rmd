@@ -2,9 +2,7 @@
 % Anja Kaczmarek <Kaczmara@students.uni-marburg.de>
 % 2014-05-11
 
-
 Falls die Umlaute in dieser und anderen Dateien nicht korrekt dargestellt werden, sollten Sie File > Reopen with Encoding > UTF-8 sofort machen (und auf jeden Fall ohne davor zu speichern), damit die Enkodierung korrekt erkannt wird! 
-
 
 ```{r, echo=FALSE}
 # citations with R -- kinda like BibTeX!
