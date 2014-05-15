@@ -1,6 +1,6 @@
-# Hausaufgabe 09
-# Phillip Alday <phillip.alday@staff.uni-marburg.de>
-# 2014-05-02
+# Hausaufgabe 09.Rmd
+# Anja Kaczmarek <Kaczmara@students.uni-marburg.de>
+# 2014-05-15
 # Dieses Werk ist lizenziert unter einer CC-BY-NC-SA Lizenz.
 
 
