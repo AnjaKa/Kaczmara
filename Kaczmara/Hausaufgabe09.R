@@ -73,6 +73,8 @@ var.test(aphasie.bw$Lex_Dec ~ aphasie.bw$Aphasie)
 var.test(rt$subj ~ rt$subj.bw$Aphasie)
 var.test(rt$subj.bw$Lex_Dec ~ rt$subj.bw$rt)
 
+welcher Code? Der zweite!?
+
 # Sind die Varianzen homogen? Vergessen Sie nicht, dass die Nullhypothese beim
 # F-Test "Varianzen Ungleich" ist.
 
