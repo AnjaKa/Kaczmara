@@ -1,6 +1,6 @@
 # Hausaufgabe 15
-# Phillip Alday <phillip.alday@staff.uni-marburg.de>
-# 2014-06-04
+# Anja Kaczmarek <Kaczmara@students.uni-marburg.de>
+# 2014-06-07
 # Dieses Werk ist lizenziert unter einer CC-BY-NC-SA Lizenz.
 
 
