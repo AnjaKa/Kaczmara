@@ -4,7 +4,7 @@
 
 Falls die Umlaute in dieser und anderen Dateien nicht korrekt dargestellt werden, sollten Sie File > Reopen with Encoding > UTF-8 sofort machen (und auf jeden Fall ohne davor zu speichern), damit die Enkodierung korrekt erkannt wird! 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE} 
 # Notwendige Pakete laden
 library(ggplot2)
 library(ez)
@@ -28,6 +28,7 @@ Bisher haben Sie von mir mehr oder weniger vollständige Analysen bekommen, bei 
 
 ```{r, eval=FALSE}
 ?diamonds
+summary(diamonds)
 ```
 <div style="border: 2px solid black; padding: 5px; font-size: 80%;">
 ```{r, echo=FALSE, results='asis'}
@@ -39,9 +40,9 @@ Die Aufgabe ist: eine Ausgangsfrage und die darauf folgenden Anschlussfragen sta
 
 Mögliche Ausgangsfragen sind unter anderem:
 
-* Was bestimmt den Preis eines Diamenten?
-* Was bestimmt das Gewicht eines Diamenten? Hat Farbe oder Klarheit eine Auswirkung daruf oder bloß Volumen?
-* Gibt es einen Zusammenhang zwischen den verschieden Dimensionen ("Längen")? 
+* Was bestimmt den Preis eines Diamanten?
+* Was bestimmt das Gewicht eines Diamanten? Hat Farbe oder Klarheit eine Auswirkung darauf oder bloß Volumen?
+* Gibt es einen Zusammenhang zwischen den verschiedenen Dimensionen ("Längen")? 
 * Gibt es einen Zusammenhang zwischen Farbe und Klarheit? Zwischen Farbe und Carat? Zwischen Farbe und Tiefe?
 * ...
 
@@ -61,5 +62,20 @@ ggplot(diamonds,aes(x=carat,y=price,color=color)) + geom_point() + facet_wrap(~c
 # Noch eine Überlegung
 Haben Sie dabei explorativ oder konfirmativ gearbeitet? Was hat das für eine Auswirkung auf die Interpretation der Ergebnisse?
 
+
 # Lizenz
 Dieses Werk ist lizenziert unter einer CC-BY-NC-SA Lizenz.
+
+Überlegungen:
+Was bestimmt den Preis von Diamanten?
+Preis ist eine abhängige Variable
+Voraussetzung Varianzhomogenität ist erfüllt (leveneTest nicht nötig), weil unsere Stichproben (53,490) groß und robust genug sind.
+
+anova1 <- aov(price~carat, data=diamonds)
+summary(anova1)
+
+anova2 <- aov(price~carat*clarity, data=diamonds)
+summary(anova2)
+
+anova3 <- aov(price~carat + clarity, data=diamonds)
+summary(anova3)
