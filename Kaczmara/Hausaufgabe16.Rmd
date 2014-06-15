@@ -1,6 +1,6 @@
 % Hausaufgabe 16
 % Anja Kaczmarek <Kaczmara@students.uni-marburg.de>
-% 2014-06-12
+% 2014-06-15
 
 Falls die Umlaute in dieser und anderen Dateien nicht korrekt dargestellt werden, sollten Sie File > Reopen with Encoding > UTF-8 sofort machen (und auf jeden Fall ohne davor zu speichern), damit die Enkodierung korrekt erkannt wird! 
 
@@ -63,19 +63,139 @@ ggplot(diamonds,aes(x=carat,y=price,color=color)) + geom_point() + facet_wrap(~c
 Haben Sie dabei explorativ oder konfirmativ gearbeitet? Was hat das für eine Auswirkung auf die Interpretation der Ergebnisse?
 
 
+# Analyse
+Ausgangsfrage: was bestimmt den Preis eines Diamanten?
+
+abhängige Variable: Preis
+
+unabhängige Variablen: Karat, Farbe, Schnitt, Klarheit, Länge (x), Breite (y), Tiefe (z), Tiefe, table
+
+Zunächst kann man sich die Einflüsse der unterschiedlichen Variablen auf den Preis ansehen, indem man die Daten plottet.
+
+```{r}
+# Einfluss von Karat
+ggplot(diamonds,aes(x=carat, y=price)) + geom_point(alpha=.3) + geom_smooth(method="lm")
+# Offenbar hat Karat einen großen Einfluss auf den Preis.Je mehr Karat, desto # höher der Preis, auch wenn es eine recht hohe Streuung gibt.
+
+# Einfluss von Farbe
+ggplot(data=diamonds) + geom_violin(aes(x=color, y=price, color=color, fill = color),alpha=0.3)
+# Offenbar hat die Farbe kaum einen Einfluss auf den Preis. Die Farben 1,2 und # 3 scheinen jedoch im großen und ganzen eher günstiger zu sein. In den 
+# höheren Preiskategorien sind eher die Farben 6 und 7 anzuordnen, während 3, # 4 und 5 dazwischen liegen.
+
+# Einfluss von Schnitt
+ggplot(data=diamonds) + geom_violin(aes(x=cut, y=price, color=cut, fill = cut),alpha=0.3)
+# Es sieht so aus, als besteht ein gewisser Zusammenhang zw. Schnitt und Preis #. Die Schnitte very good, premium und ideal sind eher in der höheren 
+# Preissegmenten vertretet als die Schnitte fair und good. Da es jedoch 
+# vergleichsweise wenig teure Diamanten gibt, lässt sich die Grafik nur grob 
+# interpretieren.
+
+# Einfluss von Klarheit
+ggplot(data=diamonds) + geom_violin(aes(x=clarity, y=price, color=clarity, fill = clarity),alpha=0.3)
+# Auch der Einfluss der Klarheit ist gering. Es ist jedoch schwer zu beurteile# n, da es sicherlich viel weniger teure als günstige Diamanten gibt und sich # die Grafik (wie auch die vorherige) daher schwer beurteilen lässt.
+
+# Einfluss von Länge (x)
+ggplot(diamonds,aes(x=x, y=price)) + geom_point(alpha=.3) + geom_smooth(method="lm")
+# Hier besteht ein Zusammenhang. Je größer die Länge der Diamanten, desto
+# teurer sind sie auch.
+
+# Einfluss von Breite (y) 
+ggplot(diamonds,aes(x=y, y=price)) + geom_point(alpha=.3) + geom_smooth(method="lm")
+# Auch hier besteht ein Zusammenhang. Allerdings gibt es überhaupt keine 
+# Datenpunkte für die höheren Preisklassen, was ich mir nicht erklären kann
+
+# Einfluss von Tiefe (z)
+ggplot(diamonds,aes(x=z, y=price)) + geom_point(alpha=.3) + geom_smooth(method="lm")
+# Auch hier besteht ein Zusammenhang. Es besteht allerdings das gleiche 
+# Problem wie bei Variable y.
+
+# Einfluss von Tiefe
+ggplot(diamonds,aes(x=depth, y=price)) + geom_point(alpha=.3) + geom_smooth(method="lm")
+# Der Einfluss der Tiefe sieht ebenfalls gering aus. Die Regressionsgerade ist # beinahe horizontal.
+
+# Einfluss von Table
+ggplot(diamonds,aes(x=table, y=price)) + geom_point(alpha=.3) + geom_smooth(method="lm")
+
+```
+Fazit: Karat und Länge (x) haben einen besonderen Einfluss auf den Preis. Nun soll das aber auch statistisch überprüft und bewiesen werden. Da diese Daten metrisch sind, bietet sich eine lineare Regression an:
+
+```{r}
+# zunächst betrachten wir den Einfluss von Karat und der Länge einzeln:
+
+summary(lm(price ~ carat, data=diamonds))
+# Das Ergebnis ist signifikant. Der Preis wird durch Karat bedingt. Das Modell # erklärt etwa 85% der Varianz.
+
+summary(lm(price ~ x, data=diamonds))
+# Auch dieses Ergebnis ist signifikant. Die Länge erklärt 78% der Varianz. 
+# Seltsam finde ich, dass die Steigung negativ ist, was ja bedeuten würde: je # geringer die Länge, desto höher der Preis. 
+
+# Was ändert sich, wenn wir beide Variablen einbeziehen?
+summary(lm(price ~ carat + x, data = diamonds))
+# Zusammen erklären die Variablen 85% der Varianz, was keinen Unterschied zur # Berechnung von Karat allein ergibt. Heißt das nun, dass der Einfluss von 
+# Länge sehr gering ist? 
+# Oder dass Länge und Karat unmittelbar zusammen hängen? Um diese Frage zu 
+# überprüfen,schauen wir uns die Interaktion beider Variablen an:
+summary(lm(price ~ carat*x, data = diamonds))
+# Da für die Interaktion p < 0.05 berechnet wird, ist das Ergebnis signifikant# : Länge und Karat interagieren mit einander und beeinflussen den Preis. Der # r^2 Wert ändert sich jedoch nicht. Woran liegt das?
+```
+Fazit: Karat hat einen größeren Einfluss auf den Preis als die Länge. Je mehr Karat ein Diamant hat, desto teurer ist dieser.
+
+Um die nominalen Variablen zu überprüfen, rechnen wir ANOVAs:
+
+```{r}
+# Ist der Einfluss von Farbe signifikant?
+summary(aov(price ~ color, data=diamonds))
+# Da p < 0.05, hat die Farbe einen signifikanten Einfluss auf den Preis. 
+
+# Ist der Einfluss von Schnitt signifikant?
+summary(aov(price ~ cut, data = diamonds))
+# Auch dieser Einfluss ist signifikant. Das hatte ich bereits nach dem plotten
+# vermutet.
+
+# Ist der Einfluss von Klarheit signifikant?
+summary(aov(price ~ clarity, data = diamonds))
+# nach der ANOVA schon
+
+# Wie sieht es aus, wenn wir Klarheit als metrisch betrachten?
+clarityNUM <- as.numeric(diamonds$clarity)
+summary(lm(price~clarityNUM, data = diamonds))
+# Es zeigt sich, dass der Einfluss von Klarheit zwar signifikant ist, jedoch
+# nur ca. 2% der Varianz erklärt. Die Koeffizienten zeigen, dass die Steigung 
+# negativ ist. Offenbar führt der Befehl as.numeric dazu, dass den Faktorstufe# n willkürlich Zahlen zugewiesen werden. Diesen Zahlen liegt aber keine 
+# Rangordnung zugrunde, weshalb dieser Befehl (und folglich auch die Regressio# n) sind sinnvoll ist.
+
+# Welchen Einfluss hat die Tiefe?
+summary(lm(price~depth, data=diamonds))
+# Obwohl sich beim Plot eine beinahe horizontale Regressionsgerade gezeigt hat, 
+# hat die Tiefe dieser Berechnung zufolge einen signifikanten Einfluss auf den
+# Preis. Sie erklärt jedoch nur 0,01% der Variation, was sehr wenig ist. 
+
+# Welchen Einfluss hat Table?
+summary(lm(price~table, data=diamonds))
+# Der Einfluss von Table ist signifikant, doch auch diese Variable erklärt nur ca. 
+# 2% der Varianz. 
+
+# Welche Einfluss hat die Breite
+summary(lm(price~y, data=diamonds))
+# Breite hat einen signifikanten Einfluss auf den Preis und erklärt immerhin ca.
+# 75% der Varianz. Je breiter ein Diamant, desto teurer ist er.
+
+# Welchen Einfluss hat Tiefe (mm)?
+summary(lm(price~z, data = diamonds))
+# Tiefe hat einen signifikanten Einfluss auf den Preis und erklärt ca. 74% der 
+# Varianz. 
+
+# Mal sehen wie viel Varianz durch die Interaktion von x, y, und z erklärt wird
+summary(lm(price~x*y*z, data=diamonds))
+# Länge, Breite und Tiefe erklären ca. 86% der Varianz (etwa genauso viel, wie 
+# durch Karat erklärt wird). Da das Gewicht von Diamanten natrlich von ihrer 
+# Größe abhängt, ist dieses Ergebnis nicht verwunderlich.
+```
+
+# Ergebnisse
+
+Karat und die Interaktion aus Länge, Breite und Tiefe der Diamanten haben den größten Einfluss auf den Preis. Sie erklären die meiste Varianz (85% und 86%).
+
+Nichtsdestotrotz haben alle untersuchten Variablen einen signifikaten Einfluss auf den Preis der Diamanten, die einen erklären mehr, die anderen weniger viel Varianz.
+
 # Lizenz
 Dieses Werk ist lizenziert unter einer CC-BY-NC-SA Lizenz.
-
-Überlegungen:
-Was bestimmt den Preis von Diamanten?
-Preis ist eine abhängige Variable
-Voraussetzung Varianzhomogenität ist erfüllt (leveneTest nicht nötig), weil unsere Stichproben (53,490) groß und robust genug sind.
-
-anova1 <- aov(price~carat, data=diamonds)
-summary(anova1)
-
-anova2 <- aov(price~carat*clarity, data=diamonds)
-summary(anova2)
-
-anova3 <- aov(price~carat + clarity, data=diamonds)
-summary(anova3)

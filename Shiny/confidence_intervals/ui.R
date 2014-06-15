@@ -26,8 +26,15 @@ shinyUI(fluidPage(
                  ,  sliderInput("conf.level"
                                 ,"Confidence Level"
                                 ,min = 0.01
+                                ,step = 0.01
                                 ,max = 0.99
+<<<<<<< HEAD
                                 ,value = 0.95)
+=======
+                                ,value = 0.95
+                                ,format = "#.##"
+                                ,animate=animationOptions(interval=6000,loop=TRUE))
+>>>>>>> 5685cb376739e1c60a38fc5e7d6ede01aec31668
                  ,  sliderInput("sd"
                                 ,"Standard Deviation"
                                 ,min = 1
