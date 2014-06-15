@@ -70,7 +70,7 @@ abhängige Variable: Preis
 
 unabhängige Variablen: Karat, Farbe, Schnitt, Klarheit, Länge (x), Breite (y), Tiefe (z), Tiefe, table
 
-Zunächst kann man sich die Einflüsse der unterschiedlichen Variablen auf den Preis ansehen, indem man die Daten plottet.
+Zunächst kann man sich die Einflüsse der unterschiedlichen Variablen auf den Preis ansehen, indem man die Daten plottet:
 
 ```{r}
 # Einfluss von Karat
