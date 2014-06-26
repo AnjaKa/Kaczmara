@@ -150,6 +150,8 @@ Woche | Datum          | Themen
 |      |                | 1. `hausaufgabe18.R`
 | 11.  | **23.06.2014** | gemischte Modelle I
 |      | **24.06.2014** | gemischte Modelle II
+|      |                | *Hausaufgabe bis 30.06.2014 12 Uhr:*
+|      |                | 1. `hausaufgabe20.Rmd`
 | 12.  | **30.06.2014** | $\chi^2$, logLikelihood & Likelihood-Ratio  
 |      | **01.07.2014** | Nicht-parametrische Tests I
 | 13.  | **07.07.2014** | Nicht-parametrische Tests II
